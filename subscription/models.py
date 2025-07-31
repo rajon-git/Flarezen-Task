@@ -18,4 +18,4 @@ class Subscription(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
 
     def __str__(self):
-        return f"{self.plan} for {self.name}"
+        return f"{self.plan} for {self.user}"
