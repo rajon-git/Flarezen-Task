@@ -8,3 +8,7 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Register Plan"
+        verbose_name_plural = "Register Plan"

@@ -1,10 +1,11 @@
 
 from pathlib import Path
+from celery.schedules import crontab
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1))l17xv+q%92-7yru=kuyl4timwg6smfspf4c!l=_9^n!w+5x'
 DEBUG = True
 ALLOWED_HOSTS = []
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -15,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_celery_beat',
     'api',
     'plan',
     'subscription',
@@ -82,10 +84,23 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 USE_I18N = True
 USE_TZ = True
 
 
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_TIMEZONE = "Asia/Dhaka"
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+# CELERY_BEAT_Schedule = {
+#     'fetch-usd-to-bdt-hourly' :{
+#         'task':
+#     }
+# }
+
