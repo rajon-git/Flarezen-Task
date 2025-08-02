@@ -4,6 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1))l17xv+q%92-7yru=kuyl4timwg6smfspf4c!l=_9^n!w+5x'
 DEBUG = True
 ALLOWED_HOSTS = []
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
