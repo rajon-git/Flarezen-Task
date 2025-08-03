@@ -78,3 +78,9 @@ class ExchangeRateView(APIView):
             
         except:
             return Response({'error': 'Failed to get rate'}, status=400)
+        
+def subscriptions_list(request):
+    subscriptions = Subscription.objects.select_related('user', 'plan').all()
+    return render(request,'subscriptions/subscriptions_list.html',{
+        'subscriptions': subscriptions
+    })

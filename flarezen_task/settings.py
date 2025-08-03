@@ -1,9 +1,13 @@
 
 from pathlib import Path
 from celery.schedules import crontab
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-1))l17xv+q%92-7yru=kuyl4timwg6smfspf4c!l=_9^n!w+5x'
+SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = []
 
@@ -59,10 +63,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'flarezen_task.wsgi.application'
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv("MYSQL_DATABASE"),
+        'USER': os.getenv("MYSQL_USER"),
+        'PASSWORD': os.getenv("MYSQL_PASSWORD"),
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
