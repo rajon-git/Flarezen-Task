@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': os.getenv("MYSQL_DATABASE"),
         'USER': os.getenv("MYSQL_USER"),
         'PASSWORD': os.getenv("MYSQL_PASSWORD"),
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '3306',
     }
 }
@@ -111,10 +111,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_TIMEZONE = "Asia/Dhaka"
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'  
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 # CELERY_BEAT_Schedule = {
 #     'fetch-usd-to-bdt-hourly' :{

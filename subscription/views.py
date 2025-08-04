@@ -5,10 +5,8 @@ from plan.models import Plan
 from django.db import transaction
 from datetime import date, timedelta
 from .models import Subscription
-from exchangerate.models import ExchangeRateLog
 from rest_framework.response import Response
-from rest_framework.views import APIView
-import requests
+
 
 # Create your views here.
 class CreateSubscriptionView(generics.CreateAPIView):
@@ -59,25 +57,7 @@ class CancelSubscriptionView(generics.UpdateAPIView):
         except Subscription.DoesNotExist:
             return Response({"error": "Subscription not found."}, status=status.HTTP_404_NOT_FOUND)
         
-class ExchangeRateView(APIView):
-    def get(self, request):
-        base = request.GET.get('base', 'USD')
-        target = request.GET.get('target', 'BDT')
-        
-        try:
-            data = requests.get(f"https://open.er-api.com/v6/latest/{base}").json()
-            rate = data['rates'][target]
-            
-            ExchangeRateLog.objects.create(
-                base_currency=base,
-                target_currency=target,
-                rate=rate
-            )
-            
-            return Response({'rate': rate})
-            
-        except:
-            return Response({'error': 'Failed to get rate'}, status=400)
+
         
 def subscriptions_list(request):
     subscriptions = Subscription.objects.select_related('user', 'plan').all()

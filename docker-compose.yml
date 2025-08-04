@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: >
+      bash -c "python manage.py migrate && 
+      exec python manage.py runserver 0.0.0.0:8000"
+    container_name: flarezen-web
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file: 
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - flarezen-network
+
+  db:
+    image: mysql:8.0
+    container_name: flarezen-db
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - flarezen-network
+
+  redis:
+    image: redis:alpine
+    container_name: flarezen-redis
+    ports:
+      - "6378:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - flarezen-network
+
+  celery:
+    build: .
+    command: >
+      bash -c "sleep 15 &&
+      celery -A flarezen_task worker --loglevel=info --uid=celery --concurrency=4 -Q celery &
+      celery -A flarezen_task beat --loglevel=info"
+    container_name: flarezen-celery
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - flarezen-network
+
+volumes:
+  mysql_data:
+
+networks:
+  flarezen-network:
+    driver: bridge
