@@ -1,4 +1,5 @@
 Project Title: Subscription Management System with Django & Celery
+
 All API endpoints Postman documentation below: https://documenter.getpostman.com/view/24667147/2sB3BANCvH
 
 This project was initially configured for local development. If you intend to run it using Docker, some changes in settings.py (such as database host configuration) are required. Please refer to the Docker setup instructions.
@@ -17,9 +18,7 @@ How to Run:
             CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
             CELERY_ACCEPT_CONTENT = ['json']
             CELERY_TASK_SERIALIZER = 'json'
-
             and in Databases: 'HOST': 'localhost',
-
         7. Run migrations (python manage.py migrate)
         8. Celery task Configuration: 
             i. Go to the Django Admin Panel.
@@ -50,7 +49,8 @@ How to Run:
         4. sudo docker start ... (there give flarezen-task-web container ID).
         5. sudo docker ps (Check there redis:alpine this container running. 
             or not, if running then next command else start this with container ID or name).
-        6. sudo docker-compose run web bash / sudo docker exec -it (there give flarezen-task-web        container ID) bash.
+        6. sudo docker-compose run web bash / sudo docker exec -it (there give flarezen-task-web        
+            container ID) bash.
         7. Create an superuser and configure (6. Celery task Configuration).
         8. Run celery with this command :  celery -A flarezen_task worker --beat --loglevel=info.
         9. Done
