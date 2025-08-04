@@ -5,6 +5,7 @@ All API endpoints Postman documentation below: https://documenter.getpostman.com
 This project was initially configured for local development. If you intend to run it using Docker, some changes in settings.py (such as database host configuration) are required. Please refer to the Docker setup instructions.
 
 How to Run: 
+
     Local Setup: 
         1. Clone the repo.
         2. Create and activate a virtual environment.
