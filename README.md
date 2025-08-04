@@ -1,5 +1,9 @@
 Project Title: Subscription Management System with Django & Celery
 
+API Documentation
+All API endpoints and usage instructions are available in the Postman documentation below:
+https://documenter.getpostman.com/view/24667147/2sB3BANCvH
+
 This project was initially configured for local development. If you intend to run it using Docker, some changes in settings.py (such as database host configuration) are required. Please refer to the Docker setup instructions.
 
 How to Run: 
